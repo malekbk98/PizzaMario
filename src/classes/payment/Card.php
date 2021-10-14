@@ -9,7 +9,7 @@ class Card extends Payment
 
     public function __construct(string $orderID, double $amount, string $cardNumber)
     {
-        parent::__construct($nom);
+        parent::__construct($orderID,$amount);
         $this->cardNumber= $cardNumber;
     }
 }
