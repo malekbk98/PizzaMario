@@ -4,9 +4,10 @@ namespace classes\orders;
 
 class Order
 {
-    public $status, $date, $product, $orderID;
+    public $status, $date, $orderID;
+    public $product=[];
     
-    public function __construct($product, $orderID)
+    public function __construct(array $product, string $orderID)
     {
         $this->orderID = 
         $this->status= false;
