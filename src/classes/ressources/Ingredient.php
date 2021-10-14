@@ -5,10 +5,11 @@ class Ingredient
 {
     public $price, $name, $category;
 
-    public function __construct(string $name, string $category, double $price)
+    public function __construct(string $name, string $category, double $price, boolean $base)
     {
         $this->name = $name;
         $this->category = $category;
+        $this->base = $base; //Is this ingredient is a base for a recipe? 0/1
         $this->price = $price;
     }
     public function __toString()
