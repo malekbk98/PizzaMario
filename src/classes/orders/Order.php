@@ -7,9 +7,9 @@ class Order
     public $status, $date, $orderID;
     public $product=[];
     
-    public function __construct(array $product, string $orderID)
+    public function __construct(array $product)
     {
-        $this->orderID = 
+        $this->orderID = "ORD-000005";
         $this->status= false;
         $this->date= new DateTime();
     }
