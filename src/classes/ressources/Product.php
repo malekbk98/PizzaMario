@@ -1,15 +1,15 @@
 <?php
 namespace classes\ressources;
 
-class Ingredient
+abstract class Products
 {
-    public $price, $name, $category;
+    public $recipe, $category, $name;
 
-    public function __construct(string $name, string $category, double $price)
+    public function __construct(Recipe $recipe, string $category, string $name)
     {
-        $this->name = $name;
+        $this->recipe = $recipe;
         $this->category = $category;
-        $this->price = $price;
+        $this->name = $name;
     }
     public function __toString()
     {

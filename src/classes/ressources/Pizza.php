@@ -1,15 +1,14 @@
 <?php
+
 namespace classes\ressources;
 
-class Ingredient
+class Pizza extends Product
 {
-    public $price, $name, $category;
-
-    public function __construct(string $name, string $category, double $price)
+    public $pizzaSize;
+    public function __construct(Recipe $recipe, string $category, string $name, PizzaSize $size)
     {
-        $this->name = $name;
-        $this->category = $category;
-        $this->price = $price;
+        $this->pizzaSize = $size;
+        parent::__construct($recipe, $category, $name);
     }
     public function __toString()
     {

@@ -1,14 +1,13 @@
 <?php
+
 namespace classes\ressources;
 
-class Ingredient
+class PizzaSize
 {
-    public $price, $name, $category;
-
-    public function __construct(string $name, string $category, double $price)
+    public $size, $price;
+    public function __construct(string $size, double $price)
     {
-        $this->name = $name;
-        $this->category = $category;
+        $this->size = $size;
         $this->price = $price;
     }
     public function __toString()
