@@ -1,11 +1,11 @@
 <?php
-namespace users\personne;
+namespace classes\users;
 
-class Admin extends Personne
+class Admin extends Person
 {
-    public function __construct(string $nom)
+    public function __construct(string $fname, string $lname, string $email, string $password, string $birthday)
     {
-        parent::__construct($nom);
+        parent::__construct($fname,$lname,$email,$password,$birthday);
     }
 }
 
