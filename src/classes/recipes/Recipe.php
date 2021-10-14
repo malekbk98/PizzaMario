@@ -4,9 +4,9 @@ namespace classes\recipes;
 abstract class Recipe
 {
     public $price;
-    public $ingredients;
+    public $ingredients=[];
 
-    public function __construct(mixed $ingredients, double $price)
+    public function __construct(array $ingredients, double $price)
     {
         $this->ingredients = $ingredients;
         $this->price = $price;
