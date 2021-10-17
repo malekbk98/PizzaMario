@@ -6,7 +6,7 @@ abstract class Recipe
     public $price;
     public $ingredients=[];
 
-    public function __construct(array $ingredients, double $price)
+    public function __construct(array $ingredients, float $price)
     {
         $this->ingredients = $ingredients;
         $this->price = $price;

@@ -5,7 +5,7 @@ class Ingredient
 {
     public $price, $name, $category;
 
-    public function __construct(string $name, string $category, double $price, boolean $base)
+    public function __construct(string $name, string $category, float $price, bool $base)
     {
         $this->name = $name;
         $this->category = $category;
