@@ -16,8 +16,10 @@ $admin = new Admin("Malek", "Ben Khalifa", "admin@admin.com", "password", "19-02
 $admin->createAccount();
 //$admin->logout();
 //$admin->login("admin@admin.com", "password");
-$admin->changeData("Malek", "BenKhalifa", "admin@admin.com", "password", "19-02-1998");
-print_r($admin);
+//$admin->changeData("Malek", "BenKhalifa", "admin@admin.com", "password", "19-02-1998");
+//$admin->changePassword("password", "newpassword"); 
+//$admin->forgetPassword("admin@admin.com", "12345","hello"); 
+//print_r($admin);
 
 //Create a new chef
 $chef = new Chef("Mario", "Italia", "chef@chef.com", "password", "05-10-1988", "10-01-2021");

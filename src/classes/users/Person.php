@@ -81,13 +81,58 @@ abstract class Person
                 $this->fname = $fname;
                 $this->lname = $lname;
                 $this->email = $email;
-                $this->birthday =$birthday;
+                $this->birthday = $birthday;
                 echo "Data changed succefully!<br>";
             } else {
                 echo "Ops! wrong password! <br>";
             }
         } else {
             echo "Ops! you need to login! <br>";
+        }
+    }
+
+    /**
+     * Function: changePassword
+     * Description:
+     *      - Update person password
+     */
+    public function changePassword($oldPassword, $newPassword)
+    {
+        if ($this->connected) {
+            if (password_verify($oldPassword, $this->password)) {
+                $this->password = password_hash($newPassword, PASSWORD_DEFAULT);
+                echo "Password changed succefully! <br>";
+            } else {
+                echo "Ops! wrong password! <br>";
+            }
+        } else {
+            echo "Ops! you need to login! <br>";
+        }
+    }
+
+    /**
+     * Function: forgetPassword
+     * Description:
+     *      - Reset password
+     */
+    public function forgetPassword($email, $emailCode, $newPassword)
+    {
+        if (!$this->connected) {
+            //Person should be logged out
+            if ($this->email === $email) {
+                //Just for testing (the email code should be generated auto and sent by email/sms)
+                if ($emailCode === "12345") {
+                    $this->password = password_hash($newPassword, PASSWORD_DEFAULT);
+                    echo "Password changed succefully! <br>";
+                } else {
+                    echo "Ops! wrong code! <br>";
+                }
+            } else {
+                echo "Ops! wrong email! <br>";
+            }
+        } else {
+            //In case person is already logged in
+            echo "Ops! you can't access this page, you're already logged in, please use your profile setting to change your password! <br>";
         }
     }
 }
