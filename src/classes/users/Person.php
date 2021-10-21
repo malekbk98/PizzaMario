@@ -8,7 +8,7 @@ abstract class Person
 
     /**
      * Construrctor:
-     * Initiate person data 
+     * Initiate person data
      */
     public function __construct(string $fname, string $lname, string $email, string $password, string $birthday)
     {
@@ -29,7 +29,7 @@ abstract class Person
     {
         $this->connected = true;
         Db::$accounts[] = $this;
-        echo "account created!\n";
+        echo "account created! <br>";
     }
 
     /**
@@ -40,12 +40,12 @@ abstract class Person
     public function login($email, $password)
     {
         if ($this->connected) {
-            echo "Already connected!\n";
+            return "Already connected!<br>";
         } else {
             if ($this->email === $email) {
                 if (password_verify($password, $this->password)) {
                     $this->connected = true;
-                    echo $this->fname ." ". $this->lname ." connected succefully!\n";
+                    echo $this->fname . " " . $this->lname . " connected succefully!<br>";
                 }
             }
         }
@@ -60,9 +60,34 @@ abstract class Person
     {
         if ($this->connected) {
             $this->connected = false;
-            echo "disconnected successfully!\n";
+            echo "disconnected successfully!<br>";
         } else {
-            echo "you have to be connected!\n";
+            echo "you have to be connected!<br>";
+        }
+    }
+
+    /**
+     * Function: changeData
+     * Description:
+     *      - Update person email
+     *      - Update person first name (fname)
+     *      - Update person last name (lname)
+     *      - Update person birthday
+     */
+    public function changeData($fname, $lname, $email, $password, $birthday)
+    {
+        if ($this->connected) {
+            if (password_verify($password, $this->password)) {
+                $this->fname = $fname;
+                $this->lname = $lname;
+                $this->email = $email;
+                $this->birthday =$birthday;
+                echo "Data changed succefully!<br>";
+            } else {
+                echo "Ops! wrong password! <br>";
+            }
+        } else {
+            echo "Ops! you need to login! <br>";
         }
     }
 }
