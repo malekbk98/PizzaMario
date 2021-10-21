@@ -12,11 +12,16 @@ $loader = new \mf\utils\ClassLoader('src');
 $loader->register();
 
 //Create a new admin
-$admin = new Admin("Malek","Ben Khalifa","malek@gmail.com","password","19-02-1998");
-print_r($admin);
+$admin = new Admin("Malek","Ben Khalifa","admin@admin.com","password","19-02-1998");
+$admin->createAccount();
+//$admin->logout();
+//$admin->login("admin@admin.com", "password");
+
 //Create a new chef
-$chef = new Chef("Mario","Italia","mario@gmail.com","password","05-10-1988","10-01-2021");
-print_r($chef);
+$chef = new Chef("Mario","Italia","chef@chef.com","password","05-10-1988","10-01-2021");
+$chef->createAccount();
+//$chef->logout();
+//$chef->login("chef@chef.com", "password");
 
 //Add Incredients (base incredients)
 $dough = new Ingredient("Dough","dough",0,true);
