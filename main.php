@@ -39,6 +39,19 @@ $mushroom = new Ingredient("Mushroom", "vegetables", 0.75, false);
 $pepperoni = new Ingredient("Pepperoni", "meat", 1.5, false);
 $beaf = new Ingredient("Beaf", "meat", 1.5, false);
 
+//Add Incredients to DB classe
+$admin->addIngredient($dough);
+$admin->addIngredient($sauce);
+$admin->addIngredient($mozzarella);
+$admin->addIngredient($parmesan);
+$admin->addIngredient($olive);
+$admin->addIngredient($mushroom);
+$admin->addIngredient($pepperoni);
+$admin->addIngredient($beaf);
+
+//Get all ingredients from DB classe
+$admin->seeIngredients();
+
 //Add Recepie
 $recepie_1 = new ReadyRecipe([$dough, $sauce, $mozzarella], 6, "Pizza margarita", "pizza");
 $recepie_2 = new ReadyRecipe([$dough, $sauce, $mozzarella, $pepperoni], 8, "Pizza pepperoni", "pizza");
