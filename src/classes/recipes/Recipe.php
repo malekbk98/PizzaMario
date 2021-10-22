@@ -1,31 +1,42 @@
 <?php
-namespace classes\recipes; 
+
+namespace classes\recipes;
 
 abstract class Recipe
 {
     public $price;
-    public $ingredients=[];
+    public $ingredients = [];
 
     public function __construct(array $ingredients, float $price)
     {
-        $this->ingredients = $ingredients;
-        $this->price = $price;
     }
 
-    public function __toString()
+    /**
+     * Function: addIngerdiant
+     * Description:
+     *      - Add ingredient to recipee ingredients
+     */
+    public function addIngerdiant($ingredient)
     {
-        return json_encode($this);
+        array_push($this->ingredients, $ingredient);
+        echo "Ingredient added to product!\n";
     }
 
-    public function __set(string $name, $value)
+    /**
+     * Function: removeIngredient
+     * Description:
+     *      - Remove ingredient to recipee ingredients
+     */
+    public function removeIngredient($ingredientKey)
     {
-        $this->$name = $value;
-    }
-
-    public function __get(string $name)
-    {
-        return $this->$name;
+        if (isset($this->ingredients[$ingredientKey])) {
+            if ($this->ingredients[$ingredientKey]->base) {
+                echo "cannot delete base ingredient!\n";
+            } else {
+                unset($this->ingredients[$ingredientKey]);
+            }
+        } else {
+            echo "error deleting Ingredient from product!\n";
+        }
     }
 }
-
-?>
