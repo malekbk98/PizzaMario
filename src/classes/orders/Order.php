@@ -2,17 +2,16 @@
 
 namespace classes\orders;
 
+use Data\Db;
+
 class Order
 {
     public $status, $date, $orderID;
-    public $product=[];
-    
-    public function __construct(array $product)
+    public $product = [];
+
+    public function __construct()
     {
-        $this->orderID = "ORD-000005";
-        $this->status= false;
-        $this->date= new DateTime();
+        $this->orderID = "ORD-" . count(Db::$orders);
+        echo "Order Number : " . $this->orderID . "\n";
     }
 }
-
-?>
