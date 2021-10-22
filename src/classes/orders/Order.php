@@ -4,6 +4,7 @@ namespace classes\orders;
 
 use classes\recipes\ComposedRecipe;
 use Data\Db;
+use DateTime;
 
 class Order
 {
@@ -138,6 +139,100 @@ class Order
             }
         } else {
             echo "Product dosent exist in order!\n";
+        }
+    }
+
+    /**
+     * Function: seeOrderDetails
+     * Description:
+     *      - Shows all the order details
+     */
+    public function seeOrderDetails()
+    {
+        $total = 0;
+        echo "Order Number : " . $this->orderID . "\n";
+        foreach ($this->products as $key => $recipee) {
+            echo "----------------------------------------------------------\n";
+            if (!isset($recipee->reference))
+                echo "Key : $key ---> name : " . $recipee->name . ", category : " . $recipee->category . ", price : " . $recipee->price . "\n";
+            else
+                echo "Key : $key ---> price : " . $recipee->price . "\n";
+
+            $total += $recipee->price;
+            echo "\tIngredients:\n";
+            foreach ($recipee->ingredients as $key => $ingredient) {
+                echo "\t\tKey : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . "\n";
+            }
+            echo "----------------------------------------------------------\n";
+        }
+        echo "Order value : $total € \n";
+    }
+
+    /**
+     * Function: contactlessPayment
+     * Description:
+     *      - One of the payements methods finish the order and put it in DB
+     */
+    public function contactlessPayment($payement)
+    {
+        $total = 0;
+        foreach ($this->products as $recipee) {
+            $total += $recipee->price;
+        }
+        if ($payement->valid && $payement->amount > $total) {
+            if ($payement->amount > $total) {
+                $payement->amount -= $total;
+                $this->status = false;
+                $this->date = new DateTime();
+                array_push(Db::$orders, $this);
+                echo "Payement Done thank you for making your order\n";
+            }
+        } else {
+            echo "Payement invalid\n";
+        }
+    }
+
+    /**
+     * Function: cardPayement
+     * Description:
+     *      - One of the payements methods finish the order and put it in DB
+     */
+    public function cardPayement($payement, $code)
+    {
+        $total = 0;
+        foreach ($this->products as $recipee) {
+            $total += $recipee->price;
+        }
+        if ($payement->valid && $payement->amount > $total && $code === $payement->code) {
+            $payement->amount -= $total;
+            $this->status = false;
+            $this->date = new DateTime();
+            array_push(Db::$orders, $this);
+            echo "Payement Done thank you for making your order\n";
+        } else {
+            echo "Payement invalid\n";
+        }
+    }
+
+    /**
+     * Function: cashPayement
+     * Description:
+     *      - One of the payements methods finish the order and put it in DB
+     */
+    public function cashPayement($payement)
+    {
+        $total = 0;
+        foreach ($this->products as $recipee) {
+            $total += $recipee->price;
+        }
+        if ($payement->amount > $total) {
+            $payement->amount -= $total;
+            $this->status = false;
+            $this->date = new DateTime();
+            array_push(Db::$orders, $this);
+            echo "Payement Done thank you for making your order\n";
+        } else {
+            echo "you still need to add " . $total - $payement->amount . " €\n";
         }
     }
 }
