@@ -52,6 +52,9 @@ $admin->addIngredient($beaf);
 //Get all ingredients from DB classe
 $admin->seeIngredients();
 
+//Remove an ingredient
+$admin->deleteIngredient(3);
+
 //Add Recepie
 $recepie_1 = new ReadyRecipe([$dough, $sauce, $mozzarella], 6, "Pizza margarita", "pizza");
 $recepie_2 = new ReadyRecipe([$dough, $sauce, $mozzarella, $pepperoni], 8, "Pizza pepperoni", "pizza");
