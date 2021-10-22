@@ -85,4 +85,59 @@ class Order
     {
         unset($this->products[$productIndex]);
     }
+
+    /**
+     * Function: seeAvailableIngredients
+     * Description:
+     *      - show available ingredients with there price
+     */
+    public function seeAvailableIngredients()
+    {
+        foreach (Db::$ingredients as $key => $ingredient) {
+            if (!$ingredient->base)
+                echo "Key : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . ", price : " . $ingredient->price . "\n";
+        }
+    }
+
+    /**
+     * Function: AddIngredientToProduct
+     * Description:
+     *      - Adding ingredient to product + Adding its price to product price
+     */
+    public function AddIngredientToProduct($productKey, $ingredientKey)
+    {
+        if (isset($this->products[$productKey])) {
+            if (Db::$ingredients[$ingredientKey]) {
+                if (!Db::$ingredients[$ingredientKey]->base) {
+                    array_push($this->products[$productKey]->ingredients, Db::$ingredients[$ingredientKey]);
+                    $this->products[$productKey]->price += Db::$ingredients[$ingredientKey]->price;
+                    echo "added ingredient to product!\n";
+                }
+            } else {
+                echo "Ingredient dosent exist in database!\n";
+            }
+        } else {
+            echo "Product dosent exist in order!\n";
+        }
+    }
+
+    /**
+     * Function: RemoveIngredientFromProduct
+     * Description:
+     *      - Remove ingredient from Product 
+     */
+    public function RemoveIngredientFromProduct($productKey, $ingredientKey)
+    {
+        if (isset($this->products[$productKey])) {
+            if (isset($this->products[$productKey]->ingredients[$ingredientKey])) {
+                if (isset($this->products[$productKey]->reference)) {
+                    $this->products[$productKey]->price -= $this->products[$productKey]->ingredients[$ingredientKey]->price;
+                }
+                unset($this->products[$productKey]->ingredients[$ingredientKey]);
+                echo "Removed ingredient from product!\n";
+            }
+        } else {
+            echo "Product dosent exist in order!\n";
+        }
+    }
 }
