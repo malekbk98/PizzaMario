@@ -5,13 +5,14 @@ namespace classes\payment;
 class Card extends Payment
 {
     public $cardNumber;
-    public $valid=false;
+    public $code;
+    public $valid = false;
 
-    public function __construct(string $orderID, double $amount, string $cardNumber)
+    public function __construct(float $amount, string $cardNumber, $code, $valid)
     {
-        parent::__construct($orderID,$amount);
-        $this->cardNumber= $cardNumber;
+        parent::__construct($amount);
+        $this->code = $code;
+        $this->cardNumber = $cardNumber;
+        $this->valid = $valid;
     }
 }
-
-?>

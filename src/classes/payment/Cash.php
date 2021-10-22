@@ -4,13 +4,8 @@ namespace classes\payment;
 
 class Cash extends Payment
 {
-    public $paidAmount;
-
-    public function __construct(string $orderID, double $amount, double $paidAmount)
+    public function addCash($amountToAdd)
     {
-        parent::__construct($orderID,$amount);
-        $this->paidAmount= $paidAmount;
+        $this->amount += $amountToAdd;
     }
 }
-
-?>
