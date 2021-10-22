@@ -5,10 +5,9 @@ namespace classes\recipes;
 class ComposedRecipe extends Recipe
 {
     public $reference;
-    public function __construct(array $ingredients, float $price)
+
+    public function __construct($reference)
     {
-        parent::__construct($ingredients,$price);
+        $this->reference = $reference;
     }
 }
-
-?>
