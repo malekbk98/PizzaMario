@@ -3,7 +3,8 @@
 use classes\users\Admin;
 use classes\users\Chef;
 use classes\ressources\Ingredient;
-use classes\recipes\ReadyRecipe;
+use classes\ressources\Pizza;
+
 require_once 'src/utils/AbstractClassLoader.php';
 require_once 'src/utils/ClassLoader.php';
 
@@ -56,7 +57,19 @@ $admin->seeIngredients();
 $admin->deleteIngredient(3);
 
 //Add Recepie
-$recepie_1 = new ReadyRecipe([$dough, $sauce, $mozzarella], 6, "Pizza margarita", "pizza");
-$recepie_2 = new ReadyRecipe([$dough, $sauce, $mozzarella, $pepperoni], 8, "Pizza pepperoni", "pizza");
+$pizzaMarguerita = new Pizza("Pizza marguerita", 6);
 
-?>
+$pizzaMarguerita->addIngerdiant($dough);
+$pizzaMarguerita->addIngerdiant($sauce);
+$pizzaMarguerita->addIngerdiant($mozzarella);
+
+$pizzaPepperoni = new Pizza("Pizza pepperoni", 8);
+
+$pizzaPepperoni->addIngerdiant($dough);
+$pizzaPepperoni->addIngerdiant($sauce);
+$pizzaPepperoni->addIngerdiant($mozzarella);
+$pizzaPepperoni->addIngerdiant($pepperoni);
+$pizzaPepperoni->addIngerdiant($mushroom);
+
+//Remove ingredient from product
+$pizzaPepperoni->removeIngredient(4);//Removed ingredient 4 ==> muchroo from 
