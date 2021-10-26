@@ -11,6 +11,6 @@ class Product extends Recipe
     {
         $this->category = $category;
         $this->name = $name;
-        $this->price = $price;
+        parent::__construct($price);
     }
 }
