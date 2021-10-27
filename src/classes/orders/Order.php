@@ -9,7 +9,7 @@ use DateTime;
 class Order
 {
     public $status, $date, $orderID;
-    public $product = [];
+    public $products = [];
 
     public function __construct()
     {
@@ -50,10 +50,16 @@ class Order
      * Description:
      *      - Add a product that exist in DB to the order 
      */
-    public function AddExistingProduct($productKey)
+    public function AddExistingProduct($product)
     {
-        array_push($this->products, Db::$recipees[$productKey]);
-        echo "Product added to your order\n";
+        foreach (Db::$recipees as $recipee) {
+            if ($recipee->name === $product->name) {
+                array_push($this->products, $recipee);
+                echo "Product added to your order\n";
+                return;
+            }
+        }
+        echo "Product cant be added to your order\n";
     }
 
     /**

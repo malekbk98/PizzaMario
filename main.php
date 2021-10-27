@@ -1,9 +1,11 @@
 <?php
 
+use classes\orders\Order;
 use classes\users\Admin;
 use classes\users\Chef;
 use classes\ressources\Ingredient;
 use classes\ressources\Pizza;
+use Data\Db;
 
 require_once 'src/utils/AbstractClassLoader.php';
 require_once 'src/utils/ClassLoader.php';
@@ -13,16 +15,16 @@ $loader = new \mf\utils\ClassLoader('src');
 $loader->register();
 session_start();
 
-echo "----------------------------------------------------------<br>";
-echo "----------------------------------------------------------<br>";
-echo "------------------------ ADMIN ----------------------<br>";
-echo "----------------------------------------------------------<br>";
-echo "----------------------------------------------------------<br>";
+echo "----------------------------------------------------------\n";
+echo "----------------------------------------------------------\n";
+echo "------------------------ ADMIN ----------------------\n";
+echo "----------------------------------------------------------\n";
+echo "----------------------------------------------------------\n";
 
 /**
  * Create a new admin
  */
-$admin = new Admin("Malek", "Ben Khalifa", "admin@admin.com", "password", "19-02-2015",200);
+$admin = new Admin("Malek", "Ben Khalifa", "admin@admin.com", "password", "19-02-2015", 200);
 $admin->createAccount();
 
 /**
@@ -97,8 +99,8 @@ $admin->deleteIngredient($parmesan);
  */
 $pizzaMarguerita = new Pizza("Pizza marguerita", 6);
 //Base ingredients => if one of those are not included, admin can't add a new recipe
-$pizzaMarguerita->addIngerdiant($dough); 
-$pizzaMarguerita->addIngerdiant($sauce); 
+$pizzaMarguerita->addIngerdiant($dough);
+$pizzaMarguerita->addIngerdiant($sauce);
 $pizzaMarguerita->addIngerdiant($mozzarella);
 
 $pizzaPepperoni = new Pizza("Pizza pepperoni", 8);
@@ -129,23 +131,44 @@ $admin->addRecipe($pizzaPepperoni);
 /**
  * Delete Recipe
  */
-$admin->deleteRecipe($pizzaPepperoni);
+//$admin->deleteRecipe($pizzaPepperoni);
 
 /**
  * See all recipes
  */
 $admin->seeRecipes();
 
-echo "----------------------------------------------------------<br>";
-echo "----------------------------------------------------------<br>";
-echo "------------------------ CHEF -------------------------<br>";
-echo "----------------------------------------------------------<br>";
-echo "----------------------------------------------------------<br>";
+
+
+echo "----------------------------------------------------------\n";
+echo "----------------------------------------------------------\n";
+echo "------------------------ CLIENT -------------------------\n";
+echo "----------------------------------------------------------\n";
+echo "----------------------------------------------------------\n";
+
+/**
+ * Client make new order
+ */
+
+$order1 = new Order();
+
+//$order1->seeAvailableProducts();
+
+$order1->AddExistingProduct($pizzaPepperoni);
+
+$order1->seeOrderDetails();
+
+
+echo "----------------------------------------------------------\n";
+echo "----------------------------------------------------------\n";
+echo "------------------------ CHEF -------------------------\n";
+echo "----------------------------------------------------------\n";
+echo "----------------------------------------------------------\n";
 
 /**
  * Create new chef
  */
-$chef = new Chef("Mario", "Italia", "chef@chef.com", "password", "05-10-1988", "10-01-2021",100);
+$chef = new Chef("Mario", "Italia", "chef@chef.com", "password", "05-10-1988", "10-01-2021", 100);
 $chef->createAccount();
 
 /**
