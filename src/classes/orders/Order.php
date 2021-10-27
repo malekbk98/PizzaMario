@@ -8,7 +8,7 @@ use DateTime;
 
 class Order
 {
-    public $status, $date, $orderID;
+    public $status, $date, $orderID, $chef;
     public $products = [];
 
     public function __construct()
