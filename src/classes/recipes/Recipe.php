@@ -22,12 +22,12 @@ abstract class Recipe
         if (isset($_SESSION['user'])) {
             if ($_SESSION['access'] == 200) {
                 array_push($this->ingredients, $ingredient);
-                echo "Ingredient added to product!<br>";
+                echo "Ingredient added to product!\n";
             } else {
-                echo "You don't have permission to do this action<br>";
+                echo "You don't have permission to do this action\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 
@@ -43,20 +43,20 @@ abstract class Recipe
                 $index = array_search($ingredient, $this->ingredients);
                 if ($index) {
                     if ($this->ingredients[$index]->base) {
-                        echo "Cannot delete base ingredient!<br>";
+                        echo "Cannot delete base ingredient!\n";
                     } else {
-                        echo "Ingredient deleted!<br>";
+                        echo "Ingredient deleted!\n";
                         unset($this->ingredients[$index]);
                         //$ingredient = null;
                     }
                 } else {
-                    echo "Ops! ingredients not found!<br>";
+                    echo "Ops! ingredients not found!\n";
                 }
             } else {
-                echo "You don't have permission to do this action<br>";
+                echo "You don't have permission to do this action\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 }

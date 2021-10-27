@@ -38,7 +38,7 @@ abstract class Person
         $_SESSION['user']=$this->email;
         $_SESSION['access']=$this->access;
         DB::$accounts[] = $this;
-        echo "account created! <br>";
+        echo "account created! \n";
     }
 
     /**
@@ -49,13 +49,13 @@ abstract class Person
     public function login($email, $password)
     {
         if (isset($_SESSION['user'])) {
-            return "Already connected!<br>";
+            return "Already connected!\n";
         } else {
             if ($this->email === $email) {
                 if (password_verify($password, $this->password)) {
                     $_SESSION['user']=$email;
                     $_SESSION['access']=$this->access;
-                    echo $this->fname . " " . $this->lname . " connected succefully!<br>";
+                    echo $this->fname . " " . $this->lname . " connected succefully!\n";
                 }
             }
         }
@@ -71,9 +71,9 @@ abstract class Person
         if (isset($_SESSION['user'])) {
             unset($_SESSION['user']);
             unset($_SESSION['access']);
-            echo "disconnected successfully!<br>";
+            echo "disconnected successfully!\n";
         } else {
-            echo "you have to be connected!<br>";
+            echo "you have to be connected!\n";
         }
     }
 
@@ -93,12 +93,12 @@ abstract class Person
                 $this->lname = $lname;
                 $this->email = $email;
                 $this->birthday = $birthday;
-                echo "Data changed succefully!<br>";
+                echo "Data changed succefully!\n";
             } else {
-                echo "Ops! wrong password! <br>";
+                echo "Ops! wrong password! \n";
             }
         } else {
-            echo "Ops! you need to login! <br>";
+            echo "Ops! you need to login! \n";
         }
     }
 
@@ -112,12 +112,12 @@ abstract class Person
         if (isset($_SESSION['user'])) {
             if (password_verify($oldPassword, $this->password)) {
                 $this->password = password_hash($newPassword, PASSWORD_DEFAULT);
-                echo "Password changed succefully! <br>";
+                echo "Password changed succefully! \n";
             } else {
-                echo "Ops! wrong password! <br>";
+                echo "Ops! wrong password! \n";
             }
         } else {
-            echo "Ops! you need to login! <br>";
+            echo "Ops! you need to login! \n";
         }
     }
 
@@ -134,16 +134,16 @@ abstract class Person
                 //Just for testing (the email code should be generated auto and sent by email/sms)
                 if ($emailCode === "12345") {
                     $this->password = password_hash($newPassword, PASSWORD_DEFAULT);
-                    echo "Password changed succefully! <br>";
+                    echo "Password changed succefully! \n";
                 } else {
-                    echo "Ops! wrong code! <br>";
+                    echo "Ops! wrong code! \n";
                 }
             } else {
-                echo "Ops! wrong email! <br>";
+                echo "Ops! wrong email! \n";
             }
         } else {
             //In case person is already logged in
-            echo "Ops! you can't access this page, you're already logged in, please use your profile setting to change your password! <br>";
+            echo "Ops! you can't access this page, you're already logged in, please use your profile setting to change your password! \n";
         }
     }
 }

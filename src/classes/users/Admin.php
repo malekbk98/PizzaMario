@@ -18,9 +18,9 @@ class Admin extends Person
     {
         if (isset($_SESSION['user'])) {
             array_push(Db::$ingredients, $ingredient);
-            echo "Ingredient added to database! <br>";
+            echo "Ingredient added to database! \n";
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 
@@ -33,10 +33,10 @@ class Admin extends Person
     {
         if (isset($_SESSION['user'])) {
             foreach (Db::$ingredients as $key => $ingredient) {
-                echo "Key : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . ", price : " . $ingredient->price . ", base ingredient : " . $ingredient->base . "<br>";
+                echo "Key : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . ", price : " . $ingredient->price . ", base ingredient : " . $ingredient->base . "\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 
@@ -52,12 +52,12 @@ class Admin extends Person
             if ($index) {
                 unset(Db::$ingredients[$index]);
                 $ingredient = null;
-                echo "Ingredient deleted!<br>";
+                echo "Ingredient deleted!\n";
             } else {
-                echo "Ingredient not found!<br>";
+                echo "Ingredient not found!\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 
@@ -79,12 +79,12 @@ class Admin extends Person
             }
             if ($findBase == true) {
                 array_push(Db::$recipees, $recipe);
-                echo "Recipe added to database!<br>";
+                echo "Recipe added to database!\n";
             } else {
-                echo "This recipe dosn't have a base ingredient, please add one!<br>";
+                echo "This recipe dosn't have a base ingredient, please add one!\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 
@@ -100,12 +100,12 @@ class Admin extends Person
             if ($index) {
                 unset(Db::$recipees[$index]); //Remove from DB classe
                 $recipe = null; //unset passed instance
-                echo "Recipe deleted!<br>";
+                echo "Recipe deleted!\n";
             } else {
-                echo "Ops! recipe not found!<br>";
+                echo "Ops! recipe not found!\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 
@@ -118,16 +118,16 @@ class Admin extends Person
     {
         if (isset($_SESSION['user'])) {
             foreach (Db::$recipees as $key => $recipe) {
-                echo "----------------------------------------------------------<br>";
-                echo "Key : $key ---> name : " . $recipe->name . ", category : " . $recipe->category . ", price : " . $recipe->price . "<br>";
-                echo "\tIngredients:<br>";
+                echo "----------------------------------------------------------\n";
+                echo "Key : $key ---> name : " . $recipe->name . ", category : " . $recipe->category . ", price : " . $recipe->price . "\n";
+                echo "\tIngredients:\n";
                 foreach ($recipe->ingredients as $key => $ingredient) {
-                    echo "\t\t Incredient : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . ", price : " . $ingredient->price . "<br>";
+                    echo "\t\t Incredient : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . ", price : " . $ingredient->price . "\n";
                 }
-                echo "----------------------------------------------------------<br>";
+                echo "----------------------------------------------------------\n";
             }
         } else {
-            echo "Ops! please login<br>";
+            echo "Ops! please login\n";
         }
     }
 }
