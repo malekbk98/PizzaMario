@@ -22,6 +22,7 @@ $admin->createAccount();
 //$admin->forgetPassword("admin@admin.com", "12345","hello"); 
 //print_r($admin);
 
+
 //Create a new chef
 $chef = new Chef("Mario", "Italia", "chef@chef.com", "password", "05-10-1988", "10-01-2021");
 $chef->createAccount();
@@ -79,3 +80,5 @@ $admin->addRecipe($pizzaPepperoni);
 //Delete Recipe
 $admin->deleteRecipe($pizzaPepperoni);
 
+//See all recipes 
+$admin->seeRecipes();

@@ -87,6 +87,24 @@ class Admin extends Person
         }
     }
 
+    /**
+     * Function: seeRecipes
+     * Description:
+     *      - Display all recipes
+     */
+    public function seeRecipes()
+    {
+        foreach (Db::$recipees as $key => $recipe) {
+            echo "----------------------------------------------------------<br>";
+            echo "Key : $key ---> name : " . $recipe->name . ", category : " . $recipe->category . ", price : " . $recipe->price . "<br>";
+            echo "\tIngredients:<br>";
+            foreach ($recipe->ingredients as $key => $ingredient) {
+                echo "\t\t Incredient : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . ", price : " . $ingredient->price . "<br>";
+            }
+            echo "----------------------------------------------------------<br>";
+        }
+    }
+
 }
 
 ?>
