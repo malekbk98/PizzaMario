@@ -67,20 +67,27 @@ class Order
      * Description:
      *      - Generate new Product to compose And adding to it base ingredients
      */
-    public function generateNewProduct()
+    public function generateNewProduct($selectedIngredients)
     {
         $product = new ComposedRecipe(count($this->products));
 
-        //Adding base ingredients to Product
-        foreach (Db::$ingredients as $ingredient) {
+        $hasBaseingredient = false;
+        foreach ($selectedIngredients as $ingredient) {
             if ($ingredient->base === true) {
-                $product->addIngerdiant($ingredient);
-                $product->price += $ingredient->price;
+                $hasBaseingredient = true;
             }
+            $product->addIngerdiant($ingredient);
+            $product->price += $ingredient->price;
         }
-        array_push($this->products, $product);
 
-        echo "generated new product succefully its key is " . ($product->reference) . " Add to it somme ingredients \n";
+        if ($hasBaseingredient) {
+            array_push($this->products, $product);
+            echo "generated new product succefully !! \n";
+            return $product;
+        } else {
+            echo "product must have at least one base ingridient";
+            return null;
+        }
     }
 
     /**
@@ -111,7 +118,7 @@ class Order
      * Description:
      *      - Adding ingredient to product + Adding its price to product price
      */
-    public function AddIngredientToProduct($product, $ingredient)
+    public function AddIngredientToProduct(&$product, &$ingredient)
     {
         $indexProduct = array_search($product, $this->products);
         $indexIngredient = array_search($ingredient, Db::$ingredients);

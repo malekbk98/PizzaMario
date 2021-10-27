@@ -52,18 +52,18 @@ $admin->createAccount();
 /**
  * Add Incredients (base incredients)
  */
-$dough = new Ingredient("Dough", "dough", 0, true);
-$sauce = new Ingredient("Sauce", "Sauce", 0, true);
+$dough = new Ingredient("Dough", "dough", 1.5, true);
+$sauce = new Ingredient("Sauce", "Sauce", 1.5, true);
 
 /**
  * Add Incredients (normal incredients)
  */
-$mozzarella = new Ingredient("Mozzarella", "cheese", 1, false);
-$parmesan = new Ingredient("Parmesan", "cheese", 1, false);
-$olive = new Ingredient("Olive", "vegetables", 0.5, false);
-$mushroom = new Ingredient("Mushroom", "vegetables", 0.75, false);
-$pepperoni = new Ingredient("Pepperoni", "meat", 1.5, false);
-$beaf = new Ingredient("Beaf", "meat", 1.5, false);
+$mozzarella = new Ingredient("Mozzarella", "cheese", 2, false);
+$parmesan = new Ingredient("Parmesan", "cheese", 2, false);
+$olive = new Ingredient("Olive", "vegetables", 1, false);
+$mushroom = new Ingredient("Mushroom", "vegetables", 2, false);
+$pepperoni = new Ingredient("Pepperoni", "meat", 3, false);
+$beaf = new Ingredient("Beaf", "meat", 3, false);
 
 /**
  * Add Incredients to DB classe
@@ -160,6 +160,14 @@ $order1->seeOrderDetails();
 $order1->seeAvailableIngredients();
 
 $order1->AddIngredientToProduct($pizzaPepperoni, $olive);
+
+$composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf]);
+$composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf, $dough]);
+
+$order1->AddIngredientToProduct($composedProduct, $mushroom);
+$order1->AddIngredientToProduct($composedProduct, $sauce);
+
+$order1->seeOrderDetails();
 
 
 echo "----------------------------------------------------------\n";

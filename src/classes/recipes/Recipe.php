@@ -47,7 +47,7 @@ abstract class Recipe
                     } else {
                         echo "Ingredient deleted!<br>";
                         unset($this->ingredients[$index]);
-                        $ingredient = null;
+                        //$ingredient = null;
                     }
                 } else {
                     echo "Ops! ingredients not found!<br>";
