@@ -120,10 +120,10 @@ class Order
      */
     public function AddIngredientToProduct(&$product, &$ingredient)
     {
-        $indexProduct = array_search($product, $this->products);
-        $indexIngredient = array_search($ingredient, Db::$ingredients);
+        if (in_array($product, $this->products) && in_array($ingredient, Db::$ingredients)) {
+            $indexProduct = array_search($product, $this->products);
+            $indexIngredient = array_search($ingredient, Db::$ingredients);
 
-        if ($indexProduct >= 0 && $indexIngredient >= 0) {
             array_push($this->products[$indexProduct]->ingredients, $ingredient);
             $this->products[$indexProduct]->price += Db::$ingredients[$indexIngredient]->price;
             echo "added ingredient to product!\n";
@@ -138,15 +138,22 @@ class Order
      * Description:
      *      - Remove ingredient from Product 
      */
-    public function RemoveIngredientFromProduct($productKey, $ingredientKey)
+    public function RemoveIngredientFromProduct($product, $ingredient)
     {
-        if (isset($this->products[$productKey])) {
-            if (isset($this->products[$productKey]->ingredients[$ingredientKey])) {
+        if (in_array($product, $this->products)) {
+            $productKey = array_search($product, $this->products);
+
+            if (in_array($ingredient, $this->products[$productKey]->ingredients)) {
+                $ingredientKey = array_search($ingredient, $this->products[$productKey]->ingredients);
+
                 if (isset($this->products[$productKey]->reference)) {
                     $this->products[$productKey]->price -= $this->products[$productKey]->ingredients[$ingredientKey]->price;
                 }
+
                 unset($this->products[$productKey]->ingredients[$ingredientKey]);
                 echo "Removed ingredient from product!\n";
+            } else {
+                echo "Ingridient dosent exist in product!\n";
             }
         } else {
             echo "Product dosent exist in order!\n";

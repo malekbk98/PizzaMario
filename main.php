@@ -169,6 +169,12 @@ $order1->AddIngredientToProduct($composedProduct, $sauce);
 
 $order1->seeOrderDetails();
 
+$order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom);
+$order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom);
+
+$order1->RemoveIngredientFromProduct($composedProduct, $beaf);
+
+$order1->seeOrderDetails();
 
 echo "----------------------------------------------------------\n";
 echo "----------------------------------------------------------\n";
