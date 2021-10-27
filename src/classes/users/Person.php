@@ -4,19 +4,27 @@ use Data\Db;
 
 abstract class Person
 {
-    public $fname, $lname, $email, $password, $birthday;
+    public $fname, $lname, $email, $password, $birthday, $access;
+
+    /**
+     * Access:
+     * 200: Admin
+     * 100: Chef 
+     */
+
 
     /**
      * Construrctor:
      * Initiate person data
      */
-    public function __construct(string $fname, string $lname, string $email, string $password, string $birthday)
+    public function __construct(string $fname, string $lname, string $email, string $password, string $birthday, string $access)
     {
         $this->fname = $fname;
         $this->lname = $lname;
         $this->email = $email;
         $this->password = password_hash($password, PASSWORD_DEFAULT);
         $this->birthday = $birthday;
+        $this->access = $access;
     }
 
     /**
@@ -27,8 +35,9 @@ abstract class Person
      */
     public function createAccount()
     {
-        $this->connected = true;
-        Db::$accounts[] = $this;
+        $_SESSION['user']=$this->email;
+        $_SESSION['access']=$this->access;
+        DB::$accounts[] = $this;
         echo "account created! <br>";
     }
 
@@ -39,12 +48,13 @@ abstract class Person
      */
     public function login($email, $password)
     {
-        if ($this->connected) {
+        if (isset($_SESSION['user'])) {
             return "Already connected!<br>";
         } else {
             if ($this->email === $email) {
                 if (password_verify($password, $this->password)) {
-                    $this->connected = true;
+                    $_SESSION['user']=$email;
+                    $_SESSION['access']=$this->access;
                     echo $this->fname . " " . $this->lname . " connected succefully!<br>";
                 }
             }
@@ -58,8 +68,9 @@ abstract class Person
      */
     public function logout()
     {
-        if ($this->connected) {
-            $this->connected = false;
+        if (isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+            unset($_SESSION['access']);
             echo "disconnected successfully!<br>";
         } else {
             echo "you have to be connected!<br>";
@@ -76,7 +87,7 @@ abstract class Person
      */
     public function changeData($fname, $lname, $email, $password, $birthday)
     {
-        if ($this->connected) {
+        if (isset($_SESSION['user'])) {
             if (password_verify($password, $this->password)) {
                 $this->fname = $fname;
                 $this->lname = $lname;
@@ -98,7 +109,7 @@ abstract class Person
      */
     public function changePassword($oldPassword, $newPassword)
     {
-        if ($this->connected) {
+        if (isset($_SESSION['user'])) {
             if (password_verify($oldPassword, $this->password)) {
                 $this->password = password_hash($newPassword, PASSWORD_DEFAULT);
                 echo "Password changed succefully! <br>";
@@ -117,7 +128,7 @@ abstract class Person
      */
     public function forgetPassword($email, $emailCode, $newPassword)
     {
-        if (!$this->connected) {
+        if (!isset($_SESSION['user'])) {
             //Person should be logged out
             if ($this->email === $email) {
                 //Just for testing (the email code should be generated auto and sent by email/sms)
