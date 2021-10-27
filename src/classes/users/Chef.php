@@ -31,6 +31,24 @@ class Chef extends Person
     }
 
     /**
+     * Function: seeAllOrders
+     * Description:
+     *      - Display all placed orders
+     */
+    public function seeChefOrders()
+    {
+        if (isset($_SESSION['user'])) {
+            foreach (Db::$orders as $key => $order) {
+                if ($order->chef == $this->fname." ".$this->lname) {
+                    echo "Key : $key ---> " . "$order->orderID - Date : " . $order->date->format('d/m/Y') . "\n";
+                }
+            }
+        } else {
+            echo "Ops! please login\n";
+        }
+    }
+
+    /**
      * Function: selectOrder
      * Description:
      *      - Select order to work on it

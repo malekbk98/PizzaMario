@@ -299,3 +299,4 @@ $chef->createAccount();
  $chef->seeAllOrders();
  $chef->selectOrder(0);
  $chef->readyOrder(0);
+ $chef->seeChefOrders();
