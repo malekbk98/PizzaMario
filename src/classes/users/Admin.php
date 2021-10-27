@@ -70,6 +70,23 @@ class Admin extends Person
         }
     }
 
+    /**
+     * Function: deleteRecipe
+     * Description:
+     *      - Delete a recipe from DB classe
+     */
+    public function deleteRecipe(&$recipe)
+    {
+        $index=array_search($recipe, Db::$recipees);
+        if ($index) {
+            unset(Db::$recipees[$index]); //Remove from DB classe
+            $recipe=null; //unset passed instance
+            echo "Recipe deleted!<br>";
+        } else {
+            echo "Ops! recipe not found!<br>";
+        }
+    }
+
 }
 
 ?>

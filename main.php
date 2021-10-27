@@ -74,3 +74,8 @@ $pizzaPepperoni->removeIngredient(4);//Removed ingredient 4 ==> muchroom from
 
 //Add Recipe
 $admin->addRecipe($pizzaMarguerita);
+$admin->addRecipe($pizzaPepperoni);
+
+//Delete Recipe
+$admin->deleteRecipe($pizzaPepperoni);
+
