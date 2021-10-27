@@ -9,7 +9,7 @@ use DateTime;
 class Order
 {
     public $status, $date, $orderID;
-    public $product = [];
+    public $products = [];
 
     public function __construct()
     {
@@ -25,6 +25,7 @@ class Order
     public function cancelOrder()
     {
         $this->products = [];
+        echo "Order has been canceled!! \n";
     }
 
     /**
@@ -50,10 +51,16 @@ class Order
      * Description:
      *      - Add a product that exist in DB to the order 
      */
-    public function AddExistingProduct($productKey)
+    public function AddExistingProduct($product)
     {
-        array_push($this->products, Db::$recipees[$productKey]);
-        echo "Product added to your order\n";
+        foreach (Db::$recipees as $recipee) {
+            if ($recipee->name === $product->name) {
+                array_push($this->products, $recipee);
+                echo "Product added to your order\n";
+                return;
+            }
+        }
+        echo "Product cant be added to your order\n";
     }
 
     /**
@@ -61,20 +68,27 @@ class Order
      * Description:
      *      - Generate new Product to compose And adding to it base ingredients
      */
-    public function generateNewProduct()
+    public function generateNewProduct($selectedIngredients)
     {
         $product = new ComposedRecipe(count($this->products));
 
-        //Adding base ingredients to Product
-        foreach (Db::$ingredients as $ingredient) {
+        $hasBaseingredient = false;
+        foreach ($selectedIngredients as $ingredient) {
             if ($ingredient->base === true) {
-                $product->addIngerdiant($ingredient);
-                $product->price += $ingredient->price;
+                $hasBaseingredient = true;
             }
+            $product->addIngerdiant($ingredient);
+            $product->price += $ingredient->price;
         }
-        array_push($this->products, $product);
 
-        echo "generated new product succefully its key is " . ($product->reference) . " Add to it somme ingredients \n";
+        if ($hasBaseingredient) {
+            array_push($this->products, $product);
+            echo "generated new product succefully !! \n";
+            return $product;
+        } else {
+            echo "product must have at least one base ingridient";
+            return null;
+        }
     }
 
     /**
@@ -105,20 +119,18 @@ class Order
      * Description:
      *      - Adding ingredient to product + Adding its price to product price
      */
-    public function AddIngredientToProduct($productKey, $ingredientKey)
+    public function AddIngredientToProduct(&$product, &$ingredient)
     {
-        if (isset($this->products[$productKey])) {
-            if (Db::$ingredients[$ingredientKey]) {
-                if (!Db::$ingredients[$ingredientKey]->base) {
-                    array_push($this->products[$productKey]->ingredients, Db::$ingredients[$ingredientKey]);
-                    $this->products[$productKey]->price += Db::$ingredients[$ingredientKey]->price;
-                    echo "added ingredient to product!\n";
-                }
-            } else {
-                echo "Ingredient dosent exist in database!\n";
-            }
+        if (in_array($product, $this->products) && in_array($ingredient, Db::$ingredients)) {
+            $indexProduct = array_search($product, $this->products);
+            $indexIngredient = array_search($ingredient, Db::$ingredients);
+
+            array_push($this->products[$indexProduct]->ingredients, $ingredient);
+            $this->products[$indexProduct]->price += Db::$ingredients[$indexIngredient]->price;
+            echo "added ingredient to product!\n";
+            return;
         } else {
-            echo "Product dosent exist in order!\n";
+            echo "couldnt add ingredient to product!\n";
         }
     }
 
@@ -127,15 +139,33 @@ class Order
      * Description:
      *      - Remove ingredient from Product 
      */
-    public function RemoveIngredientFromProduct($productKey, $ingredientKey)
+    public function RemoveIngredientFromProduct($product, $ingredient)
     {
-        if (isset($this->products[$productKey])) {
-            if (isset($this->products[$productKey]->ingredients[$ingredientKey])) {
-                if (isset($this->products[$productKey]->reference)) {
-                    $this->products[$productKey]->price -= $this->products[$productKey]->ingredients[$ingredientKey]->price;
+        if (in_array($product, $this->products)) {
+            $productKey = array_search($product, $this->products);
+
+            $countBaseingredient = 0;
+            foreach ($this->products[$productKey]->ingredients as $ing) {
+                if ($ing->base === true) {
+                    $countBaseingredient++;
                 }
-                unset($this->products[$productKey]->ingredients[$ingredientKey]);
-                echo "Removed ingredient from product!\n";
+            }
+
+            if ($countBaseingredient > 1) {
+                if (in_array($ingredient, $this->products[$productKey]->ingredients)) {
+                    $ingredientKey = array_search($ingredient, $this->products[$productKey]->ingredients);
+
+                    if (isset($this->products[$productKey]->reference)) {
+                        $this->products[$productKey]->price -= $this->products[$productKey]->ingredients[$ingredientKey]->price;
+                    }
+
+                    unset($this->products[$productKey]->ingredients[$ingredientKey]);
+                    echo "Removed ingredient from product!\n";
+                } else {
+                    echo "Ingridient dosent exist in product!\n";
+                }
+            } else {
+                echo "cannot delete all base ingredients!\n";
             }
         } else {
             echo "Product dosent exist in order!\n";
@@ -222,17 +252,17 @@ class Order
     public function cashPayement($payement)
     {
         $total = 0;
-        foreach ($this->products as $recipee) {
-            $total += $recipee->price;
+        foreach ($this->products as $product) {
+            $total += $product->price;
         }
-        if ($payement->amount > $total) {
+        if ($payement->amount >= $total) {
             $payement->amount -= $total;
             $this->status = false;
             $this->date = new DateTime();
             array_push(Db::$orders, $this);
             echo "Payement Done thank you for making your order\n";
         } else {
-            echo "you still need to add " . $total - $payement->amount . " €\n";
+            echo "you still need to add " . ($total - $payement->amount) . " €\n";
         }
     }
 }
