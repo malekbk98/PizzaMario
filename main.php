@@ -246,6 +246,7 @@ $order1->contactlessPayment($card1);
 $order2 = new Order();
 $order2->AddExistingProduct($pizzaPepperoni);
 $composedProduct = $order2->generateNewProduct([$olive, $beaf, $dough]);
+
 /**
  * payement with cash
  */
@@ -254,19 +255,19 @@ $order2->cashPayement($payementCash);
 $payementCash->addCash(7);
 $order2->cashPayement($payementCash);
 
-
-
 /**
  * other Client make new order
  */
 $order3 = new Order();
 $order3->AddExistingProduct($pizzaPepperoni);
 $composedProduct = $order3->generateNewProduct([$olive, $beaf, $dough]);
+
 /**
  * payement with invalid card
  */
 $invalidCard = new Card(100, "12345", 1234, false);
 $order3->cardPayement($invalidCard, 1234);
+
 /**
  * Client cancel order
  */
@@ -290,3 +291,9 @@ $chef->createAccount();
  */
 //$chef->logout();
 //$chef->login("chef@chef.com", "password");
+
+/**
+ * Order managment
+ */
+
+ $chef->seeAllOrders();

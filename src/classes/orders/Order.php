@@ -212,7 +212,7 @@ class Order
         if ($payement->valid && $payement->amount > $total) {
             if ($payement->amount > $total) {
                 $payement->amount -= $total;
-                $this->status = false;
+                $this->status = "placed";
                 $this->date = new DateTime();
                 array_push(Db::$orders, $this);
                 echo "Payement Done thank you for making your order\n";
@@ -235,7 +235,7 @@ class Order
         }
         if ($payement->valid && $payement->amount > $total && $code === $payement->code) {
             $payement->amount -= $total;
-            $this->status = false;
+            $this->status = "placed";
             $this->date = new DateTime();
             array_push(Db::$orders, $this);
             echo "Payement Done thank you for making your order\n";
@@ -257,7 +257,7 @@ class Order
         }
         if ($payement->amount >= $total) {
             $payement->amount -= $total;
-            $this->status = false;
+            $this->status = "placed";
             $this->date = new DateTime();
             array_push(Db::$orders, $this);
             echo "Payement Done thank you for making your order\n";
