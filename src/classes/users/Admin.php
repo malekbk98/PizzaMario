@@ -47,6 +47,29 @@ class Admin extends Person
         }
     }
 
+    /**
+     * Function: addRecipe
+     * Description:
+     *      - Add recipes to DB classe
+     *      - Check if recipe have at least 1 base ingredient
+     */
+    public function addRecipe($recipe)
+    {
+        $findBase=false;
+        foreach ($recipe->ingredients as $ingredient) {
+            if ($ingredient->base == true) {
+                $findBase=true;
+                break;
+            }
+        }
+        if($findBase==true){
+            array_push(Db::$recipees, $recipe);
+            echo "Recipe added to database!<br>";
+        }else{
+            echo "This recipe dosn't have a base ingredient, please add one!<br>";
+        }
+    }
+
 }
 
 ?>

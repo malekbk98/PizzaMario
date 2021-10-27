@@ -56,15 +56,13 @@ $admin->seeIngredients();
 //Remove an ingredient
 $admin->deleteIngredient(3);
 
-//Add Recepie
+//Add Product
 $pizzaMarguerita = new Pizza("Pizza marguerita", 6);
-
-$pizzaMarguerita->addIngerdiant($dough);
-$pizzaMarguerita->addIngerdiant($sauce);
+$pizzaMarguerita->addIngerdiant($dough); //Base ingredients => if one of those are not included, admin can't add a new recipe
+$pizzaMarguerita->addIngerdiant($sauce); //Base ingredients => if one of those are not included, admin can't add a new recipe
 $pizzaMarguerita->addIngerdiant($mozzarella);
 
 $pizzaPepperoni = new Pizza("Pizza pepperoni", 8);
-
 $pizzaPepperoni->addIngerdiant($dough);
 $pizzaPepperoni->addIngerdiant($sauce);
 $pizzaPepperoni->addIngerdiant($mozzarella);
@@ -72,4 +70,7 @@ $pizzaPepperoni->addIngerdiant($pepperoni);
 $pizzaPepperoni->addIngerdiant($mushroom);
 
 //Remove ingredient from product
-$pizzaPepperoni->removeIngredient(4);//Removed ingredient 4 ==> muchroo from 
+$pizzaPepperoni->removeIngredient(4);//Removed ingredient 4 ==> muchroom from 
+
+//Add Recipe
+$admin->addRecipe($pizzaMarguerita);

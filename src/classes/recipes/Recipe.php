@@ -22,7 +22,7 @@ abstract class Recipe
     public function addIngerdiant($ingredient)
     {
         array_push($this->ingredients, $ingredient);
-        echo "Ingredient added to product!\n";
+        echo "Ingredient added to product!<br>";
     }
 
     /**
@@ -34,12 +34,12 @@ abstract class Recipe
     {
         if (isset($this->ingredients[$ingredientKey])) {
             if ($this->ingredients[$ingredientKey]->base) {
-                echo "cannot delete base ingredient!\n";
+                echo "cannot delete base ingredient!<br>";
             } else {
                 unset($this->ingredients[$ingredientKey]);
             }
         } else {
-            echo "error deleting Ingredient from product!\n";
+            echo "error deleting Ingredient from product!<br>";
         }
     }
 }
