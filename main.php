@@ -297,3 +297,4 @@ $chef->createAccount();
  */
 
  $chef->seeAllOrders();
+ $chef->selectOrder(0);
