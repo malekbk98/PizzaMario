@@ -1,6 +1,7 @@
 <?php
 
 use classes\orders\Order;
+use classes\payment\Cash;
 use classes\users\Admin;
 use classes\users\Chef;
 use classes\ressources\Ingredient;
@@ -155,7 +156,7 @@ $order1 = new Order();
 
 $order1->AddExistingProduct($pizzaPepperoni);
 
-$order1->seeOrderDetails();
+// $order1->seeOrderDetails();
 
 $order1->seeAvailableIngredients();
 
@@ -167,14 +168,26 @@ $composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf, $dou
 $order1->AddIngredientToProduct($composedProduct, $mushroom);
 $order1->AddIngredientToProduct($composedProduct, $sauce);
 
-$order1->seeOrderDetails();
+// $order1->seeOrderDetails();
 
 $order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom);
 $order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom);
 
 $order1->RemoveIngredientFromProduct($composedProduct, $beaf);
 
-$order1->seeOrderDetails();
+// $order1->seeOrderDetails();
+
+//$order1->cancelOrder();
+
+$payement = new Cash(10);
+
+$order1->cashPayement($payement);
+
+$payement->addCash(7);
+
+$order1->cashPayement($payement);
+
+//$order1->seeOrderDetails();
 
 echo "----------------------------------------------------------\n";
 echo "----------------------------------------------------------\n";

@@ -240,17 +240,17 @@ class Order
     public function cashPayement($payement)
     {
         $total = 0;
-        foreach ($this->products as $recipee) {
-            $total += $recipee->price;
+        foreach ($this->products as $product) {
+            $total += $product->price;
         }
-        if ($payement->amount > $total) {
+        if ($payement->amount >= $total) {
             $payement->amount -= $total;
             $this->status = false;
             $this->date = new DateTime();
             array_push(Db::$orders, $this);
             echo "Payement Done thank you for making your order\n";
         } else {
-            echo "you still need to add " . $total - $payement->amount . " €\n";
+            echo "you still need to add " . ($total - $payement->amount) . " €\n";
         }
     }
 }
