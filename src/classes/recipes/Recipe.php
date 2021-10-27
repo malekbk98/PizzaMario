@@ -17,7 +17,7 @@ abstract class Recipe
     /**
      * Function: addIngerdiant
      * Description:
-     *      - Add ingredient to recipee ingredients
+     *      - Add ingredient to recipe ingredients
      */
     public function addIngerdiant($ingredient)
     {
@@ -30,16 +30,19 @@ abstract class Recipe
      * Description:
      *      - Remove ingredient to recipee ingredients
      */
-    public function removeIngredient($ingredientKey)
+    public function removeIngredient(&$ingredient)
     {
-        if (isset($this->ingredients[$ingredientKey])) {
-            if ($this->ingredients[$ingredientKey]->base) {
-                echo "cannot delete base ingredient!<br>";
+        $index=array_search($ingredient, $this->ingredients);
+        if ($index) {
+            if ($this->ingredients[$index]->base) {
+                echo "Cannot delete base ingredient!<br>";
             } else {
-                unset($this->ingredients[$ingredientKey]);
+                echo "Ingredient deleted!<br>";
+                unset($this->ingredients[$index]);
+                $ingredient=null;
             }
-        } else {
-            echo "error deleting Ingredient from product!<br>";
+        }else{
+            echo "Ops! ingredients not found!<br>";
         }
     }
 }

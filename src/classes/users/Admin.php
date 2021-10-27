@@ -37,14 +37,16 @@ class Admin extends Person
      * Description:
      *      - Delete an ingredient
      */
-    public function deleteIngredient($key)
+    public function deleteIngredient(&$ingredient)
     {
-        if (isset(Db::$ingredients[$key])) {
-            unset(Db::$ingredients[$key]);
+        $index=array_search($ingredient, Db::$ingredients);
+        if ($index) {
+            unset(Db::$ingredients[$index]);
+            $ingredient=null;
             echo "Ingredient deleted!<br>";
         } else {
             echo "Ingredient not found!<br>";
-        }
+        }            
     }
 
     /**
