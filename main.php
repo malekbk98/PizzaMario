@@ -7,6 +7,7 @@ use classes\users\Admin;
 use classes\users\Chef;
 use classes\ressources\Ingredient;
 use classes\ressources\Pizza;
+use Data\Db;
 
 require_once 'src/utils/AbstractClassLoader.php';
 require_once 'src/utils/ClassLoader.php';
@@ -150,53 +151,127 @@ echo "----------------------------------------------------------\n";
 /**
  * Client make new order
  */
-
 $order1 = new Order();
 
-//$order1->seeAvailableProducts();
 
+/**
+ * 
+ * Client and Products
+ * 
+ */
+
+/**
+ * Client see available products
+ */
+$order1->seeAvailableProducts();
+
+/**
+ * Client add existing product to order
+ */
 $order1->AddExistingProduct($pizzaPepperoni);
 
-// $order1->seeOrderDetails();
-
-$order1->seeAvailableIngredients();
-
-$order1->AddIngredientToProduct($pizzaPepperoni, $olive);
-
-$composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf]);
+/**
+ * Client generate new product to order
+ */
+$composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf]); //cant add product without at least base ingridient
 $composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf, $dough]);
 
+/**
+ * Client check order details
+ */
+$order1->seeOrderDetails();
+
+
+/**
+ * 
+ * Client and Ingridients
+ * 
+ */
+
+/**
+ * Client see available Ingredients
+ */
+$order1->seeAvailableIngredients();
+
+/**
+ * Client add ingridient to product
+ */
+$order1->AddIngredientToProduct($pizzaPepperoni, $olive);
+
+/**
+ * Client add ingridient to composed product
+ */
 $order1->AddIngredientToProduct($composedProduct, $mushroom);
 $order1->AddIngredientToProduct($composedProduct, $sauce);
 
-// $order1->seeOrderDetails();
+/**
+ * Client check order details
+ */
+$order1->seeOrderDetails();
 
+/**
+ * Client remove ingridient from product
+ */
 $order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom);
-$order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom);
+$order1->RemoveIngredientFromProduct($pizzaPepperoni, $mushroom); //cant remove already removed ingidient from product
 
+/**
+ * Client remove ingridient from composed product
+ */
 $order1->RemoveIngredientFromProduct($composedProduct, $beaf);
 
-// $order1->seeOrderDetails();
+/**
+ * Client check order details
+ */
+$order1->seeOrderDetails();
 
-//$order1->cancelOrder();
+/**
+ * 
+ * Client finilazing his order
+ * 
+ */
 
-// $payement = new Cash(10);
-
-// $order1->cashPayement($payement);
-
-// $payement->addCash(7);
-
-// $order1->cashPayement($payement);
-
-//$order1->seeOrderDetails();
+/**
+ * payement with card
+ */
+$card1 = new Card(100, "12345", 1234, true);
+// $order1->cardPayement($card1, 1234);
+$order1->contactlessPayment($card1);
 
 
+
+/**
+ * other Client make new order
+ */
+$order2 = new Order();
+$order2->AddExistingProduct($pizzaPepperoni);
+$composedProduct = $order2->generateNewProduct([$olive, $beaf, $dough]);
+/**
+ * payement with cash
+ */
+$payementCash = new Cash(10);
+$order2->cashPayement($payementCash);
+$payementCash->addCash(7);
+$order2->cashPayement($payementCash);
+
+
+
+/**
+ * other Client make new order
+ */
+$order3 = new Order();
+$order3->AddExistingProduct($pizzaPepperoni);
+$composedProduct = $order3->generateNewProduct([$olive, $beaf, $dough]);
+/**
+ * payement with invalid card
+ */
 $invalidCard = new Card(100, "12345", 1234, false);
-$order1->cardPayement($invalidCard, 1234);
+$order3->cardPayement($invalidCard, 1234);
+/**
+ * Client cancel order
+ */
+$order3->cancelOrder();
 
-$card = new Card(100, "12345", 1234, true);
-// $order1->cardPayement($card, 1234);
-$order1->contactlessPayment($card);
 
 echo "----------------------------------------------------------\n";
 echo "----------------------------------------------------------\n";

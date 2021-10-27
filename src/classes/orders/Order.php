@@ -25,6 +25,7 @@ class Order
     public function cancelOrder()
     {
         $this->products = [];
+        echo "Order has been canceled!! \n";
     }
 
     /**
