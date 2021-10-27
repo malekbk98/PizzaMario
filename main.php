@@ -5,7 +5,6 @@ use classes\users\Admin;
 use classes\users\Chef;
 use classes\ressources\Ingredient;
 use classes\ressources\Pizza;
-use Data\Db;
 
 require_once 'src/utils/AbstractClassLoader.php';
 require_once 'src/utils/ClassLoader.php';
@@ -157,6 +156,10 @@ $order1 = new Order();
 $order1->AddExistingProduct($pizzaPepperoni);
 
 $order1->seeOrderDetails();
+
+$order1->seeAvailableIngredients();
+
+$order1->AddIngredientToProduct($pizzaPepperoni, $olive);
 
 
 echo "----------------------------------------------------------\n";

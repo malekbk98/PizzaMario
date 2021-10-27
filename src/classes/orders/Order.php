@@ -111,20 +111,18 @@ class Order
      * Description:
      *      - Adding ingredient to product + Adding its price to product price
      */
-    public function AddIngredientToProduct($productKey, $ingredientKey)
+    public function AddIngredientToProduct($product, $ingredient)
     {
-        if (isset($this->products[$productKey])) {
-            if (Db::$ingredients[$ingredientKey]) {
-                if (!Db::$ingredients[$ingredientKey]->base) {
-                    array_push($this->products[$productKey]->ingredients, Db::$ingredients[$ingredientKey]);
-                    $this->products[$productKey]->price += Db::$ingredients[$ingredientKey]->price;
-                    echo "added ingredient to product!\n";
-                }
-            } else {
-                echo "Ingredient dosent exist in database!\n";
-            }
+        $indexProduct = array_search($product, $this->products);
+        $indexIngredient = array_search($ingredient, Db::$ingredients);
+
+        if ($indexProduct >= 0 && $indexIngredient >= 0) {
+            array_push($this->products[$indexProduct]->ingredients, $ingredient);
+            $this->products[$indexProduct]->price += Db::$ingredients[$indexIngredient]->price;
+            echo "added ingredient to product!\n";
+            return;
         } else {
-            echo "Product dosent exist in order!\n";
+            echo "couldnt add ingredient to product!\n";
         }
     }
 
