@@ -1,6 +1,7 @@
 <?php
 
 use classes\orders\Order;
+use classes\payment\Card;
 use classes\payment\Cash;
 use classes\users\Admin;
 use classes\users\Chef;
@@ -179,15 +180,23 @@ $order1->RemoveIngredientFromProduct($composedProduct, $beaf);
 
 //$order1->cancelOrder();
 
-$payement = new Cash(10);
+// $payement = new Cash(10);
 
-$order1->cashPayement($payement);
+// $order1->cashPayement($payement);
 
-$payement->addCash(7);
+// $payement->addCash(7);
 
-$order1->cashPayement($payement);
+// $order1->cashPayement($payement);
 
 //$order1->seeOrderDetails();
+
+
+$invalidCard = new Card(100, "12345", 1234, false);
+$order1->cardPayement($invalidCard, 1234);
+
+$card = new Card(100, "12345", 1234, true);
+// $order1->cardPayement($card, 1234);
+$order1->contactlessPayment($card);
 
 echo "----------------------------------------------------------\n";
 echo "----------------------------------------------------------\n";
