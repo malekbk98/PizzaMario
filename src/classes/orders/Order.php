@@ -144,17 +144,28 @@ class Order
         if (in_array($product, $this->products)) {
             $productKey = array_search($product, $this->products);
 
-            if (in_array($ingredient, $this->products[$productKey]->ingredients)) {
-                $ingredientKey = array_search($ingredient, $this->products[$productKey]->ingredients);
-
-                if (isset($this->products[$productKey]->reference)) {
-                    $this->products[$productKey]->price -= $this->products[$productKey]->ingredients[$ingredientKey]->price;
+            $countBaseingredient = 0;
+            foreach ($this->products[$productKey]->ingredients as $ing) {
+                if ($ing->base === true) {
+                    $countBaseingredient++;
                 }
+            }
 
-                unset($this->products[$productKey]->ingredients[$ingredientKey]);
-                echo "Removed ingredient from product!\n";
+            if ($countBaseingredient > 1) {
+                if (in_array($ingredient, $this->products[$productKey]->ingredients)) {
+                    $ingredientKey = array_search($ingredient, $this->products[$productKey]->ingredients);
+
+                    if (isset($this->products[$productKey]->reference)) {
+                        $this->products[$productKey]->price -= $this->products[$productKey]->ingredients[$ingredientKey]->price;
+                    }
+
+                    unset($this->products[$productKey]->ingredients[$ingredientKey]);
+                    echo "Removed ingredient from product!\n";
+                } else {
+                    echo "Ingridient dosent exist in product!\n";
+                }
             } else {
-                echo "Ingridient dosent exist in product!\n";
+                echo "cannot delete all base ingredients!\n";
             }
         } else {
             echo "Product dosent exist in order!\n";
