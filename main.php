@@ -7,6 +7,7 @@ use classes\users\Admin;
 use classes\users\Chef;
 use classes\ressources\Ingredient;
 use classes\ressources\Pizza;
+use classes\ressources\PizzaSize;
 use Data\Db;
 
 require_once 'src/utils/AbstractClassLoader.php';
@@ -140,6 +141,31 @@ $admin->addRecipe($pizzaPepperoni);
  */
 $admin->seeRecipes();
 
+/**
+ * New pizza sizes
+ */
+$pizzaSize_s = new PizzaSize("Small", 0);
+$pizzaSize_m = new PizzaSize("Medium", 3);
+$pizzaSize_l = new PizzaSize("Large", 6);
+$pizzaSize_xl = new PizzaSize("Extra Large", 9);
+
+/**
+ * Adding Pizza sizes to database
+ */
+$admin->addPizzaSize($pizzaSize_s);
+$admin->addPizzaSize($pizzaSize_m);
+$admin->addPizzaSize($pizzaSize_l);
+$admin->addPizzaSize($pizzaSize_xl);
+
+/**
+ * Deleting Pizza size
+ */
+$admin->deletePizzaSize($pizzaSize_xl);
+
+/**
+ * See all pizza sizes
+ */
+$admin->seePizzaSizes();
 
 
 echo "----------------------------------------------------------\n";
