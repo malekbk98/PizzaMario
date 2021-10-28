@@ -194,13 +194,13 @@ $order1->seeAvailableProducts();
 /**
  * Client add existing product to order
  */
-$order1->AddExistingProduct($pizzaPepperoni);
+$order1->AddExistingPizza($pizzaPepperoni, $pizzaSize_s);
 
 /**
  * Client generate new product to order
  */
-$composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf]); //cant add product without at least base ingridient
-$composedProduct = $order1->generateNewProduct([$mozzarella, $olive, $beaf, $dough]);
+$composedProduct = $order1->generateNewPizza([$mozzarella, $olive, $beaf], $pizzaSize_m); //cant add product without at least base ingridient
+$composedProduct = $order1->generateNewPizza([$mozzarella, $olive, $beaf, $dough], $pizzaSize_m);
 
 /**
  * Client check order details
@@ -270,7 +270,7 @@ $order1->contactlessPayment($card1);
  * other Client make new order
  */
 $order2 = new Order();
-$order2->AddExistingProduct($pizzaPepperoni);
+$order2->AddExistingPizza($pizzaPepperoni, $pizzaSize_l);
 $composedProduct = $order2->generateNewProduct([$olive, $beaf, $dough]);
 
 /**
@@ -279,13 +279,14 @@ $composedProduct = $order2->generateNewProduct([$olive, $beaf, $dough]);
 $payementCash = new Cash(10);
 $order2->cashPayement($payementCash);
 $payementCash->addCash(7);
+$payementCash->addCash(3.5);
 $order2->cashPayement($payementCash);
 
 /**
  * other Client make new order
  */
 $order3 = new Order();
-$order3->AddExistingProduct($pizzaPepperoni);
+$order3->AddExistingPizza($pizzaPepperoni, $pizzaSize_s);
 $composedProduct = $order3->generateNewProduct([$olive, $beaf, $dough]);
 
 /**
@@ -322,7 +323,7 @@ $chef->createAccount();
  * Order managment
  */
 
- $chef->seeAllOrders();
- $chef->selectOrder(0);
- $chef->readyOrder(0);
- $chef->seeChefOrders();
+$chef->seeAllOrders();
+$chef->selectOrder(0);
+$chef->readyOrder(0);
+$chef->seeChefOrders();

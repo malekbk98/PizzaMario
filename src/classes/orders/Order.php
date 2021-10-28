@@ -3,6 +3,7 @@
 namespace classes\orders;
 
 use classes\recipes\ComposedRecipe;
+use classes\ressources\ComposedPizza;
 use Data\Db;
 use DateTime;
 
@@ -87,6 +88,53 @@ class Order
             return $product;
         } else {
             echo "product must have at least one base ingridient";
+            return null;
+        }
+    }
+
+    /**
+     * Function: AddExistingPizza
+     * Description:
+     *      - Add a pizza that exist in DB to the order 
+     */
+    public function AddExistingPizza(&$pizza, &$pizzaSize)
+    {
+        foreach (Db::$recipees as $recipee) {
+            if ($recipee->name === $pizza->name) {
+                $pizza->assignSize($pizzaSize);
+                array_push($this->products, $pizza);
+                echo "Product added to your order\n";
+                return;
+            }
+        }
+        echo "Product cant be added to your order\n";
+    }
+
+    /**
+     * Function: generateNewPizza
+     * Description:
+     *      - Generate new Pizza to compose And adding to it base ingredients
+     */
+    public function generateNewPizza($selectedIngredients, &$pizzaSize)
+    {
+        $pizza = new ComposedPizza(count($this->products));
+
+        $hasBaseingredient = false;
+        foreach ($selectedIngredients as $ingredient) {
+            if ($ingredient->base === true) {
+                $hasBaseingredient = true;
+            }
+            $pizza->addIngerdiant($ingredient);
+            $pizza->price += $ingredient->price;
+        }
+
+        if ($hasBaseingredient) {
+            $pizza->assignSize($pizzaSize);
+            array_push($this->products, $pizza);
+            echo "generated new pizza succefully !! \n";
+            return $pizza;
+        } else {
+            echo "Pizza must have at least one base ingridient \n";
             return null;
         }
     }
@@ -183,12 +231,24 @@ class Order
         echo "Order Number : " . $this->orderID . "\n";
         foreach ($this->products as $key => $recipee) {
             echo "----------------------------------------------------------\n";
-            if (!isset($recipee->reference))
-                echo "Key : $key ---> name : " . $recipee->name . ", category : " . $recipee->category . ", price : " . $recipee->price . "\n";
-            else
-                echo "Key : $key ---> price : " . $recipee->price . "\n";
+            if (!isset($recipee->pizzaSize)) {
+                if (!isset($recipee->reference))
+                    echo "Key : $key ---> name : " . $recipee->name . ", category : " . $recipee->category . ", price : " . $recipee->price . "\n";
+                else
+                    echo "Key : $key ---> price : " . $recipee->price . "\n";
 
-            $total += $recipee->price;
+
+                $total += $recipee->price;
+            } else {
+                if (!isset($recipee->reference))
+                    echo "Key : $key ---> name : " . $recipee->name . ", category : " . $recipee->category . ", price : " . $recipee->price . ", Size : " . $recipee->pizzaSize->size . " --> +" . $recipee->pizzaSize->price . "€ \n";
+                else
+                    echo "Key : $key ---> price : " . $recipee->price . ", Size : " . $recipee->pizzaSize->size . " --> +" . $recipee->pizzaSize->price . "€ \n";
+
+
+                $total += $recipee->price + $recipee->pizzaSize->price;
+            }
+
             echo "\tIngredients:\n";
             foreach ($recipee->ingredients as $key => $ingredient) {
                 echo "\t\tKey : $key ---> name : " . $ingredient->name . ", category : " . $ingredient->category . "\n";
@@ -207,7 +267,11 @@ class Order
     {
         $total = 0;
         foreach ($this->products as $recipee) {
-            $total += $recipee->price;
+            if (!isset($recipee->pizzaSize)) {
+                $total += $recipee->price;
+            } else {
+                $total += $recipee->price + $recipee->pizzaSize->price;
+            }
         }
         if ($payement->valid && $payement->amount > $total) {
             if ($payement->amount > $total) {
@@ -231,7 +295,11 @@ class Order
     {
         $total = 0;
         foreach ($this->products as $recipee) {
-            $total += $recipee->price;
+            if (!isset($recipee->pizzaSize)) {
+                $total += $recipee->price;
+            } else {
+                $total += $recipee->price + $recipee->pizzaSize->price;
+            }
         }
         if ($payement->valid && $payement->amount > $total && $code === $payement->code) {
             $payement->amount -= $total;
@@ -253,7 +321,11 @@ class Order
     {
         $total = 0;
         foreach ($this->products as $product) {
-            $total += $product->price;
+            if (!isset($product->pizzaSize)) {
+                $total += $product->price;
+            } else {
+                $total += $product->price + $product->pizzaSize->price;
+            }
         }
         if ($payement->amount >= $total) {
             $payement->amount -= $total;
