@@ -130,6 +130,58 @@ class Admin extends Person
             echo "Ops! please login\n";
         }
     }
-}
 
-?>
+
+    /**
+     * Function: addPizzaSize
+     * Description:
+     *      - Add pizzaSizes to DB classe
+     *      - Check if pizzaSize have at least 1 base ingredient
+     */
+    public function addPizzaSize($pizzaSize)
+    {
+        if (isset($_SESSION['user'])) {
+            array_push(Db::$pizzaSizes, $pizzaSize);
+            echo "pizzaSize added to database!\n";
+        } else {
+            echo "Ops! please login\n";
+        }
+    }
+
+    /**
+     * Function: deletePizzaSize
+     * Description:
+     *      - Delete a pizzaSize from DB classe
+     */
+    public function deletePizzaSize(&$pizzaSize)
+    {
+        if (isset($_SESSION['user'])) {
+            $index = array_search($pizzaSize, Db::$pizzaSizes);
+            if ($index) {
+                unset(Db::$pizzaSizes[$index]); //Remove from DB classe
+                $pizzaSize = null; //unset passed instance
+                echo "PizzaSize deleted!\n";
+            } else {
+                echo "Ops! pizzaSize not found!\n";
+            }
+        } else {
+            echo "Ops! please login\n";
+        }
+    }
+
+    /**
+     * Function: seepizzaSizes
+     * Description:
+     *      - Display all pizzaSizes
+     */
+    public function seePizzaSizes()
+    {
+        if (isset($_SESSION['user'])) {
+            foreach (Db::$pizzaSizes as $key => $pizzaSize) {
+                echo "Key : $key ---> size : " . $pizzaSize->size . ", price : " . $pizzaSize->price . "\n";
+            }
+        } else {
+            echo "Ops! please login\n";
+        }
+    }
+}
