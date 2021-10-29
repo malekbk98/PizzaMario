@@ -38,6 +38,7 @@ class Chef extends Person
     public function seeChefOrders()
     {
         if (isset($_SESSION['user'])) {
+            echo "Orders made by chef ".$this->fname." ".$this->lname." :\n";
             foreach (Db::$orders as $key => $order) {
                 if ($order->chef == $this->fname." ".$this->lname) {
                     echo "Key : $key ---> " . "$order->orderID - Date : " . $order->date->format('d/m/Y') . "\n";
@@ -84,9 +85,9 @@ class Chef extends Person
             if (isset(Db::$orders[$orderKey])) {
                 if (Db::$orders[$orderKey]->status == "progress") {
                     Db::$orders[$orderKey]->status = "ready";
-                    echo "Order " . Db::$orders[$orderKey]->orderID . " is ready";
+                    echo "Order " . Db::$orders[$orderKey]->orderID . " is ready \n";
                 } else {
-                    echo "Please select this order first";
+                    echo "Please select this order first \n";
                 }
             } else {
                 echo "Ops! order not found! \n";
