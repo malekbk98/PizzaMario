@@ -3,7 +3,7 @@ namespace classes\ressources;
 
 class Ingredient
 {
-    public $price, $name, $category;
+    public $price, $name, $category, $base;
 
     public function __construct(string $name, string $category, float $price, bool $base)
     {
