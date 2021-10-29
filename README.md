@@ -40,7 +40,13 @@
 
 ### How to install (with wamp):
 
-* unzip the package.
-* Copy this project under wwww (example: c:\wamp64\www).
+
+* Unzip the package.
 * Lunch wamp.
-* Open your localhost (http://localhost/).
+* Web use:
+    * Copy this project under wwww (example: c:\wamp64\www).
+    * Open your localhost (http://localhost/).
+    * Navigate to the project folder.
+* CMD use:
+    * Using CMD navigate into the unzipped folder.
+    * Type php "main.php" and press enter.
